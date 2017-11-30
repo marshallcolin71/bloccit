@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ #Ruby Version Declaration as reccomended by Heroku
+ 
  # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
  gem 'rails', '4.2.5'
 
