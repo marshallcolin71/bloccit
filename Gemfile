@@ -15,6 +15,7 @@ source 'https://rubygems.org'
  group :development do
    gem 'sqlite3'
    gem 'pry-rails'
+   gem 'byebug', '~> 9.0', '>= 9.0.6'
  end
 
  group :development, :test do
