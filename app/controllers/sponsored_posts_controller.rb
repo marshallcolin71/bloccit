@@ -9,7 +9,7 @@ class SponsoredPostsController < ApplicationController
   end
 
   def create
-    byebug
+
       @sponsored_post = SponsoredPost.new
       @sponsored_post.title = params[:sponsored_post][:title]
       @sponsored_post.body = params[:sponsored_post][:body]
