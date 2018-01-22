@@ -4,15 +4,18 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  def confirm
-    @user = User.new
-    @user.name = params[:user][:name]
-    @user.email = params[:user][:email]
-    @user.password = params[:user][:password]
-    @user.password_confirmation = params[:user][:password_confirmation]
-  end
+#  def confirm
+    #byebug
+#    @user = User.new
+#    @user.name = params[:user][:name]
+#    @user.email = params[:user][:email]
+#    @user.password = params[:user][:password]
+#    @user.password_confirmation = params[:user][:password_confirmation]
+#    puts @user
+#  end
 
   def create
+    #byebug
     @user = User.new
     @user.name = params[:user][:name]
     @user.email = params[:user][:email]
