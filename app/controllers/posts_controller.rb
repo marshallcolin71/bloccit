@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :require_sign_in, except: :show
+  before_action :authorize_user, except: [:show, :new, :create]
 
   def show
     @post = Post.find(params[:id])
@@ -11,15 +12,13 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new
-    @post.title = params[:post][:title]
-    @post.body = params[:post][:body]
+
     @topic = Topic.find(params[:topic_id])
-    @post.topic = @topic
+    @post = @topic.posts.build(post_params)
     @post.user = current_user
 
     if @post.save
-      flash[notice] = "Post was saved."
+      flash[:notice] = "Post was saved."
       redirect_to [@topic, @post]
     else
       flash.now[:alert] = "There was an error saving the post. Please try again."
@@ -33,14 +32,13 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    @post.title = params[:post][:title]
-    @post.body = params[:post][:body]
+    @post.assign_attributes(post_params)
 
     if @post.save
-      flash[:notice] = "Post was updated"
+      flash[:notice] = "Post was saved"
       redirect_to [@post.topic, @post]
     else
-      flash.now[:alert] = "There was an error saving the post. Please try again"
+      flash.now[:alert] = "There was an error saving the post. Please try again."
       render :edit
     end
   end
@@ -52,8 +50,21 @@ class PostsController < ApplicationController
       flash[:notice] = "\"#{@post.title}\" was deleted successfully."
       redirect_to @post.topic
     else
-      flash.now[:alert] = "There was an error deleting the post"
+      flash.now[:alert] = "There was an error deletin the post"
       render :show
+    end
+  end
+
+  private
+  def post_params
+    params.require(:post).permit(:title, :body)
+  end
+
+  def authorize_user
+    post = Post.find(params[:id])
+    unless current_user == post.user || current_user.admin?
+      flash[:alert] = "You must be admin to do that."
+      redirect_to [post.topic, post]
     end
   end
 end
