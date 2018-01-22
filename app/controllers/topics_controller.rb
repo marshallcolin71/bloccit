@@ -1,5 +1,6 @@
 
 class TopicsController < ApplicationController
+
 	before_action :require_sign_in, except: [:index, :show]
 	before_action :authorize_user, except: [:index, :show]
 
@@ -65,5 +66,6 @@ class TopicsController < ApplicationController
 			flash[:alert] = "You must be admin to do that."
 			redirect_to topics_path
 		end
+
 	end
 end
